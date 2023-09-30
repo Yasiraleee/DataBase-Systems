@@ -1,0 +1,11 @@
+select department_id, count(EMPLOYEE_ID) as num_emp, avg(salary) as avgsalary from employees group by department_id;
+select job_id, count(*) as num_employees_job from employees group by job_id;
+select department_id, count(EMPLOYEE_ID) as num_high_salary from employees where salary > 20000 group by department_id having count(EMPLOYEE_ID) > 5;
+select manager_id, min(salary)from EMPLOYEES where manager_id is not null group by manager_id order by min(salary) desc;
+select first_name,hire_date from EMPLOYEES where hire_date>(select hire_date from EMPLOYEES where EMPLOYEE_ID=110);
+select department_name,department_id from departments where department_id in (select department_id from EMPLOYEES where job_id in(select job_id from jobs where max_salary >=1500));
+select employee_id,first_name,last_name,job_id from EMPLOYEES where salary<ANY(select salary from EMPLOYEES where job_id='IT_PROG');
+select * from EMPLOYEES where EMPLOYEE_ID not in (select employee_id from job_history);
+create table emoloyees_BKP as select * from employees where hire_date = to_date('13-jan-01', 'dd-mon-yy')or employee_id in (select distinct employee_id from job_history where hire_date = to_date('13-jan-01', 'dd-mon-yy'));
+update EMPLOYEES set salary=salary*1.20 where salary>=6000;
+delete from emoloyees_BKP where employee_id in (select employee_id from employees where department_id = 'finance' and job_id like'%PU_man%' and job_id like'%SA_MAN%' and job_id like'%ST_MAN%');
